@@ -1,0 +1,126 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.2.xsd">
+
+    <!--
+    - The following imports will configure the application for the designated environment, by
+    - default, the development configuration.  This is overridden by passing a parameter
+    - to the JVM such as -Denvironment=staging to change to the staging settings.
+    - This flag will load the staging environment XML file as well as the system properties
+    - for that environment.  Individual properties may always be overridden with parameters
+    - as well, for example, -Djdbc.url=someSetting will be used, no matter what the environment
+    - is currently set to.
+    -->
+    <!--import resource="/env-${environment:development}.xml"/-->
+
+    <!-- Environment-based log4j configuration -->
+    <bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.springframework.util.Log4jConfigurer" />
+        <property name="targetMethod" value="initLogging" />
+        <property name="arguments">
+            <list>
+                <value>classpath:/log4j_${environment:development}.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Environment-based JDBC configuration -->
+    <bean name="propertiesDb" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+        <constructor-arg ref="configurationEncryptor"/>
+        <property name="locations">
+            <list>
+                <value>classpath:/jdbc_${environment:development}.properties</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="localOverride" value="true"/>
+    </bean>
+
+    <!-- Environment-based SALSA configuration -->
+    <bean id="salsaProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="location" value="classpath:/salsa_${environment:development}.properties"/>
+    </bean>
+
+    <bean name="buildProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:/build.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="environmentVariablesConfiguration" class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+        <property name="algorithm" value="PBEWithMD5AndDES"/>
+        <!--property name="password" value="#{new org.usac.utility.CryptoPassUtils().getEncryptionPassword()}"/-->
+    </bean>
+
+    <bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+        <property name="config" ref="environmentVariablesConfiguration"/>
+    </bean>
+
+    <bean name="properties" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer"
+          depends-on="propertiesDb">
+        <constructor-arg ref="configurationEncryptor"/>
+        <property name="locations">
+            <list>
+                <value>classpath:/jdbc.properties</value>
+            </list>
+        </property>
+        <property name="properties" ref="buildProperties"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="localOverride" value="true"/>
+    </bean>
+
+    <!--bean id="dozerMapper" class="org.dozer.DozerBeanMapper">
+        <property name="mappingFiles">
+            <list>
+                <value>dozer-mapping.xml</value>
+            </list>
+        </property>
+    </bean-->
+
+
+    <!--
+     This sets up the aspects which are used either automatically by spring in the annotations,
+     such as @Transactional, or through any specific annotations defined by the following pointcuts.
+    -->
+    <aop:aspectj-autoproxy/>
+
+    <!--
+    <aop:config>
+        <aop:pointcut id="pagePermissionsPointcut"
+                      expression="@within(org.usac.salsa.core.portals.annotation.DefaultPagePermissions)"/>
+        <aop:advisor advice-ref="pagePermissionsAspect"
+                     pointcut-ref="pagePermissionsPointcut" id="pagePermissionsAdvisor" />
+    </aop:config>
+    -->
+
+    <!-- Base component scanning through the tree to find all annotated components -->
+    <context:component-scan base-package="com.markcdunn"/>
+
+    <!-- Cache configuration for application level caching -->
+<!--
+    <cache:annotation-driven cache-manager="cacheManager"/>
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
+          depends-on="ehcacheCacheManager">
+        <property name="cacheManager" ref="ehcacheCacheManager"/>
+    </bean>
+
+    <bean id="ehcacheCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:/ehcache.xml"/>
+        <property name="shared" value="true"/>
+        <property name="cacheManagerName" value="salsaUserPortal"/>
+    </bean>
+-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+</beans>
+

@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring-2.11.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--
+    <context:component-scan base-package="org.usac"/>
+-->
+    <!-- Note that JMS configuration occurs in the environment specific XML files -->
+<!--
+    <camel:camelContext id="camelServer" depends-on="jmsConnectionFactory">
+        <camel:package>org.usac.salsa.messaging.server</camel:package>
+        <camel:jmxAgent id="agent" createConnector="false"/>
+        <camel:template id="camelTemplate"/>
+        <camel:routeBuilder ref="msgRouting"/>
+    </camel:camelContext>
+
+    <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+        <property name="connectionFactory" ref="jmsConnectionFactory"/>
+        <property name="transacted" value="false"/>
+        <property name="transactionTimeout" value="120000"/>
+        <property name="requestTimeout" value="60000"/>
+        <property name="timeToLive" value="60000"/>-->
+        <!-- set to the same value as requestTimeout! -->
+<!--    </bean>
+
+    <bean id="jms" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="configuration" ref="jmsConfig"/>
+    </bean>
+
+    <bean id="msgRouting" class="org.usac.salsa.messaging.server.routes.ServerRoutes"/>-->
+</beans>
+

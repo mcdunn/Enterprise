@@ -1,0 +1,398 @@
+<!-- div class="modal-dialog modal-lg"-->
+
+	<div class="modal-content modal-lg" ng-controller="basicInformationModifyCtrl">
+
+		<div class="modal-header modal-lg">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" ng-click="$dismiss()">&times;</span></button>
+			<h4 class="modal-title modal-lg">Basic Information</h4>
+			
+		</div>
+		<div class="modal-errors" ng-show="isError()">
+        <table class="modal-errors-table">
+            <tr ng-repeat="error in getErrors()" class="clickable"
+                    ng-click="goToError(error)">
+                <td>{{$index + 1}}.</td>
+                <td>{{error.message}}{{error.value ? ":" + error.value : ""}}</td>
+            </tr>
+        </table>
+    </div>
+		<div class="modal-body modal-lg">
+			<div class="row">
+				<div class="col-xs-6">
+				
+					<h4>
+						<a id="sref" ui-sref="BasicInformation.BilledEntityInformation" >Billed
+							Entity</a>
+					</h4>
+					<ul class="clean-list spaced-items">
+						<li ng-class="{'highlight-modified' : isModified(['basicInformation', 'billedEntity', 'name'])}"
+                data-toggle="{{isModified(['basicInformation', 'billedEntity', 'name']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Name of Billed Entity:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'name']) | blank}}">
+                            <label class="ben">Name of Billed Entity:</label>
+							{{basicInformation.billedEntity.name}}</li>
+							
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'billedEntity', 'number'])}"
+                data-toggle="{{isModified(['basicInformation', 'billedEntity', 'number']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Billed Entity Number:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'number']) | blank}}">
+                            <label class="ben">Billed Entity Number:</label>
+                            <input ng-class="{'highlight-modified':isModified(['basicInformation', 'billedEntity', 'number']),
+                       			   			   'highlight-error' : isError('basicInformation', 'billedEntity', 'number')}" class="billedEntity" name="ben"
+							type="text"
+							ng-model="basicInformation.billedEntity.number"
+                                ng-change="handleBilledEntityNumberChange()"/>
+                            <br/>
+                        </li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'billedEntity', 'fccRegistrationNumber'])}"
+                data-toggle="{{isModified(['basicInformation', 'billedEntity', 'fccRegistrationNumber']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>FCC Registration Number:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'fccRegistrationNumber']) | blank}}" >
+                            <label class="ben">FCC Registration Number:</label><input class="billedEntity" 
+							name="fcc" type="text"
+							ng-model="basicInformation.billedEntity.fccRegistrationNumber" />
+						</li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'billedEntity', 'contactInfo', 'addressLine1'])}"
+                data-toggle="{{isModified(['basicInformation', 'billedEntity', 'contactInfo', 'addressLine1']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Address 1:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'addressLine1']) | blank}}">
+                            <label class="ben">Address 1:</label><input class="billedEntity"  name="address1"
+							type="text"
+							ng-model="basicInformation.billedEntity.contactInfo.addressLine1" />
+						</li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'billedEntity', 'contactInfo', 'city']) ||
+                                                isModified(['basicInformation', 'billedEntity', 'contactInfo', 'state']) ||
+                                                isModified(['basicInformation', 'billedEntity', 'contactInfo', 'zip']) ||
+                                                isModified(['basicInformation', 'billedEntity', 'contactInfo', 'zipExt'])}"
+                data-toggle="{{isModified(['basicInformation', 'billedEntity', 'contactInfo', 'city']) ||
+                            isModified(['basicInformation', 'billedEntity', 'contactInfo', 'state']) ||
+                            isModified(['basicInformation', 'billedEntity', 'contactInfo', 'zip']) ||
+                            isModified(['basicInformation', 'billedEntity', 'contactInfo', 'zipExt']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>City:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'city']) | blank}}
+                            <br/><strong>State:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'state']) | blank}}
+                            <br/><strong>Zip Code:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'zip']) | blank}}
+                            <strong>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'zipExt']) ? '-' : ''}}</strong>
+                            {{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'zipExt'])}}">
+                            <label class="ben">City:</label> <input class="billedEntity"  id="city" type="text"
+							ng-model="basicInformation.billedEntity.contactInfo.city" />
+
+							<label class="ben">State:</label>
+                            <select class="billedEntity"  ng-model="basicInformation.billedEntity.contactInfo.state"
+							        ng-options="state.abbreviation as state.name for state in states" >
+                            </select>
+							<label class="ben">Zip Code:</label> <input class="billedEntity"  id="zip" type="text"
+							value="{{basicInformation.billedEntity.contactInfo.zip}}" />
+
+							<label class="ben">{{basicInformation.billedEntity.contactInfo.zipExt
+								? '-' : ''}}</label><input class="billedEntity"  name="address1" type="text"
+							value="{{basicInformation.billedEntity.contactInfo.zipExt}}" />
+						</li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'billedEntity', 'contactInfo', 'phone']) ||
+                        isModified(['basicInformation','billedEntity', 'contactInfo', 'phoneExt'])}"
+                data-toggle="{{isModified(['basicInformation','billedEntity', 'contactInfo', 'phone']) ||
+                        isModified(['basicInformation','billedEntity', 'contactInfo', 'phoneExt']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Telephone Number:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'phone']) | telephone | blank}}
+                            <br/><strong>Ext:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'phoneExt']) | blank}}">
+                            <label class="ben">Telephone Number:</label> <input class="billedEntity"  id="city"
+							type="text"
+							value="{{basicInformation.billedEntity.contactInfo.phone | telephone}}" />
+							
+							<label class="ben">Ext:</label> <input class="billedEntity"  id="city" type="text"
+							value="{{basicInformation.billedEntity.contactInfo.phoneExt || 'None Provided' }}" />
+
+						</li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'billedEntity', 'contactInfo', 'fax'])}"
+                data-toggle="{{isModified(['basicInformation', 'billedEntity', 'contactInfo', 'fax']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Fax Number:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'billedEntity', 'contactInfo', 'fax']) | telephone | blank}}">
+                            <label class="ben">Fax Number:</label> <input class="billedEntity"  id="city" type="text"
+							value="{{basicInformation.billedEntity.contactInfo.fax | telephone}}" />
+
+						</li>
+						<li><label class="ben">Submitter's Email Address:</label> <input class="billedEntity"  id="city" type="text"
+							value="{{basicInformation.preparerEmailAddress}}" />
+
+						</li>
+						<li><label class="ben">Confirm Email Address:</label> <input class="billedEntity"  id="city" type="text"
+							value="" disabled/>
+
+						</li>
+					</ul>
+					<h4 class="ben">
+						<a id="sref" ui-sref="BasicInformation.ApplicationType">Application Type
+							and Recipients of Service</a>
+					</h4>
+					<ul class="clean-list spaced-items">
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'applicationType'])}"
+                data-toggle="{{isModified(['basicInformation', 'applicationType']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Type of Application:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'applicationType']) | titleCase | blank}}" ng-if="!basicInformation.applicationType=='SCHOOL' || !basicInformation.applicationType=='DISTRICT'"  class="ben"><strong>Type of Application:</strong>
+							{{basicInformation.applicationType | titleCase}}</li>
+							<strong class="ben" ng-if="basicInformation.applicationType=='SCHOOL' || basicInformation.applicationType=='DISTRICT'">Type of Application:</strong>
+						<select ng-if="basicInformation.applicationType=='SCHOOL' || basicInformation.applicationType=='DISTRICT'" class="billedEntity"  ng-model="basicInformation.applicationType"
+							        ng-options="school.value as school.label for school in schoolOptions" >
+                            </select>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'recipientsOfService'])}"
+                data-toggle="{{isModified(['basicInformation', 'recipientsOfService']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Recipients of Services:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'recipientsOfService']) | list | titleCase | blank}}" class="ben"><strong>Recipients of Services:</strong></li>
+						<div class="row">
+							<div class="col-xs-3 ben">
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										ng-model="createApplication.rosPrivate"
+										ng-change="errors.needROS=needROS()" /> Private
+									</label>
+								</div>
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										ng-model="createApplication.rosPublic"
+										ng-change="errors.needROS=needROS()" /> Public
+									</label>
+								</div>
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										ng-model="createApplication.rosCharter"
+										ng-change="errors.needROS=needROS()" /> Charter
+									</label>
+								</div>
+							</div>
+							<div class="col-xs-5">
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										ng-model="createApplication.rosTribal"
+										ng-change="errors.needROS=needROS()" /> Tribal
+									</label>
+								</div>
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										ng-model="createApplication.rosHeadStart"
+										ng-change="errors.needROS=needROS()" /> Head Start
+									</label>
+								</div>
+								<div class="checkbox">
+									<label> <input type="checkbox"
+										ng-model="createApplication.rosStateAgency"
+										ng-change="errors.needROS=needROS()" /> State Agency
+									</label>
+								</div>
+							</div>
+
+						</div>
+					</ul>
+				</div>
+				<div class="col-xs-6">
+					<h4>
+						<a id="sref" ui-sref="BasicInformation.ContactInformation">Contact
+							Information</a>
+					</h4>
+					<ul class="clean-list spaced-items">
+                        <!-- TODO: we need to show the checkbox to allow them turn on / off consultant -->
+						<div ng-show="true || basicInformation.consultant.number">
+							<li ng-class="{'highlight-modified':isModified(['basicInformation', 'consultant', 'number'])}"
+                    data-toggle="{{isModified(['basicInformation', 'consultant', 'number']) ? 'popover' : ''}}"
+                    data-container="body" data-placement="top" data-trigger="hover"
+                    data-content="<strong>Consultant Registration Number:</strong>
+                                <br/>{{getChangedValue(['basicInformation', 'consultant', 'number']) | blank}}">
+                                <label class="ben">Consultant Registration Number:</label> <input
+								id="city" type="text" class="billedEntity"
+								ng-model="basicInformation.consultant.number" ng-change="handleConsultantNumberChange()"/></li>
+							<li ng-class="{'highlight-modified':isModified(['basicInformation', 'consultant', 'employee'])}"
+                    data-toggle="{{isModified(['basicInformation', 'consultant', 'employee']) ? 'popover' : ''}}"
+                    data-container="body" data-placement="top" data-trigger="hover"
+                    data-content="<strong>Consultant Name:</strong>
+                                <br/>{{getChangedValue(['basicInformation', 'consultant', 'employee']) | blank}}">
+                                <label class="ben">Consultant Name:</label> <!-- select class="billedEntity"
+                                ng-model="basicInformation.consultant.employee">                                    
+                                    <option>{{basicInformation.consultant.employee}}</option>
+                                </select-->
+                                <select ng-change="handleConsultantNameChange()" ng-show="consultantNumberChange" class="billedEntity" 
+                                ng-model="basicInformation.consultant.employee" 
+                                ng-options="employee.name as employee.name for employee in employees"></select>
+                                <span class="billedEntity" ng-show="!consultantNumberChange">{{basicInformation.consultant.employee}}</span>
+
+							</li>
+							<li ng-class="{'highlight-modified':isModified(['basicInformation', 'consultant', 'primaryContact'])}"
+                    data-toggle="{{isModified(['basicInformation', 'consultant', 'primaryContact']) ? 'popover' : ''}}"
+                    data-container="body" data-placement="top" data-trigger="hover"
+                    data-content="<strong>Is a consultant acting as the contact person for this application?</strong>
+                                <br/>{{getChangedValue(['basicInformation', 'consultant', 'primaryContact']) | yesNoBlank}}">
+                                <label class="ben">Is the consultant the contact
+									person</label> 
+									<select class="billedEntity" ng-model="basicInformation.consultant.primaryContact" 
+									ng-options="option.value as option.label for option in yesNoOptions">
+									</select>
+								
+							</li>
+						</div>
+
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'primaryContact', 'name'])}"
+                data-toggle="{{isModified(['basicInformation','primaryContact','name']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Contact Person&rsquo;s Name:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'primaryContact', 'name']) | blank}}">
+                            <label class="ben">Contact Person&rsquo;s Name:</label> <input class="billedEntity"
+							type="text"
+							value="{{basicInformation.primaryContact.name}}" ng-disabled="basicInformation.consultant.primaryContact"/></li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'primaryContact', 'emailAddress'])}"
+                data-toggle="{{isModified(['basicInformation', 'primaryContact', 'emailAddress']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Contact Person&rsquo;s Email Address:</strong>
+                        <br/>{{getChangedValue(['basicInformation', 'primaryContact', 'emailAddress']) | blank}}">
+                        <label class="ben">Contact Person&rsquo;s Email Address:</label> <input class="billedEntity"
+							type="text"
+							ng-model="basicInformation.primaryContact.emailAddress" ng-disabled="basicInformation.consultant.primaryContact"/>
+
+						</li>
+						<li><label class="ben">Confirm Email Address:</label> <input class="billedEntity"  id="city" type="text"
+							value="" ng-disabled="basicInformation.consultant.primaryContact"/>
+
+						</li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'useBilledEntityContactInfo'])}"
+                data-toggle="{{isModified(['basicInformation', 'useBilledEntityContactInfo']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Is the contact person&rsquo;s address the same as that of the Billed Entity?</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'useBilledEntityContactInfo']) | yesNoBlank}}">
+                            <label class="ben">Address same as Billed Entity?</label> <select class="billedEntity" ng-model="basicInformation.useBilledEntityContactInfo" 
+									ng-options="option.value as option.label for option in yesNoOptions">
+							
+							</select>
+
+						</li>
+
+						<div>
+							<li ng-class="{'highlight-modified':isModified(['basicInformation', 'primaryContact', 'addressLine1']) ||
+                            isModified(['basicInformation', 'primaryContact', 'addressLine2'])}"
+                    data-toggle="{{isModified(['basicInformation', 'primaryContact', 'addressLine1']) ||
+                            isModified(['basicInformation', 'primaryContact', 'addressLine2']) ? 'popover' : ''}}"
+                    data-container="body" data-placement="top" data-trigger="hover"
+                    data-content="<strong>Contact Person&rsquo;s Address:</strong>
+                                <br/>{{getChangedValue(['basicInformation', 'primaryContact', 'addressLine1']) | blank}}
+                                {{getChangedValue(['basicInformation', 'primaryContact', 'addressLine2'])}}">
+                                <label class="ben">Contact Person&rsquo;s Address:</label> <input class="billedEntity"
+								id="city" type="text"
+								value="{{basicInformation.primaryContact.addressLine1}}" ng-disabled="basicInformation.useBilledEntityContactInfo"/></br>
+								<input  ng-if="basicInformation.primaryContact.addressLine2!=null" class="billedEntity" id="city" type="text"
+								value="{{basicInformation.primaryContact.addressLine2}}" ng-disabled="basicInformation.useBilledEntityContactInfo"/>
+								
+
+
+							</li>
+							<li ng-class="{'highlight-modified':isModified(['basicInformation', 'primaryContact', 'city']) ||
+                                                    isModified(['basicInformation', 'primaryContact', 'state']) ||
+                                                    isModified(['basicInformation', 'primaryContact', 'zip']) ||
+                                                    isModified(['basicInformation', 'primaryContact', 'zipExt'])}"
+                    data-toggle="{{isModified(['basicInformation', 'primaryContact', 'city']) ||
+                                isModified(['basicInformation', 'primaryContact', 'state']) ||
+                                isModified(['basicInformation', 'primaryContact', 'zip']) ||
+                                isModified(['basicInformation', 'primaryContact', 'zipExt']) ? 'popover' : ''}}"
+                    data-container="body" data-placement="top" data-trigger="hover"
+                    data-content="<strong>City:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'primaryContact', 'city']) | blank}}
+                            <br/><strong>State:</strong>
+                            {{getChangedValue(['basicInformation', 'primaryContact', 'state']) | blank}}
+                            <br/><strong>Zip Code:</strong>
+                            {{getChangedValue(['basicInformation', 'primaryContact', 'zip']) | blank}}
+                            <strong>{{getChangedValue(['basicInformation', 'primaryContact', 'zipExt']) ? '-' : ''}}</strong>
+                            {{getChangedValue(['basicInformation', 'primaryContact', 'zipExt'])}}">
+                            <label class="ben">City:</label> <input class="billedEntity" id="city" type="text"
+								value="{{basicInformation.primaryContact.city}}" ng-disabled="basicInformation.useBilledEntityContactInfo" />
+
+								<label class="ben">State:</label>
+								<input ng-show="basicInformation.useBilledEntityContactInfo" class="billedEntity" id="city" type="text"
+								value="{{basicInformation.primaryContact.state}}" ng-disabled="basicInformation.useBilledEntityContactInfo" />
+								<select ng-show="!basicInformation.useBilledEntityContactInfo" class="billedEntity"  ng-model="basicInformation.primaryContact.state"
+							        ng-options="state.abbreviation as state.abbreviation for state in states">
+                            </select>
+
+								<label class="ben">Zip Code:</label> <input class="billedEntity" id="city" type="text"
+								value="{{basicInformation.primaryContact.zip}}" ng-disabled="basicInformation.useBilledEntityContactInfo"/> <label class="ben">{{basicInformation.primaryContact.zipExt
+									? '-' : ''}}</label> <input class="billedEntity" id="city" type="text"
+								value="{{basicInformation.primaryContact.zipExt}}" ng-disabled="basicInformation.useBilledEntityContactInfo"/>
+
+							</li>
+							<li ng-class="{'highlight-modified':isModified(['basicInformation', 'primaryContact', 'phone']) ||
+                                                    isModified(['basicInformation', 'primaryContact', 'phoneExt'])}"
+                    data-toggle="{{isModified(['basicInformation', 'primaryContact', 'phone']) ||
+                                isModified(['basicInformation', 'primaryContact', 'phoneExt']) ? 'popover' : ''}}"
+                    data-container="body" data-placement="top" data-trigger="hover"
+                    data-content="<strong>Contact Person&rsquo;s Telephone Number:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'primaryContact', 'phone']) | telephone | blank}}
+                            <br/> <strong>Ext:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'primaryContact', 'phoneExt']) | blank}}">
+                            <label class="ben">Contact Person&rsquo;s Telephone
+									Number:</label> <input class="billedEntity" id="city" type="text"
+								value="{{basicInformation.primaryContact.phone | telephone}}" ng-disabled="basicInformation.useBilledEntityContactInfo"/>
+
+								<label class="ben">Ext:</label> <input class="billedEntity" id="city" type="text"
+								value="{{basicInformation.primaryContact.phoneExt || 'None Provided' }}" ng-disabled="basicInformation.useBilledEntityContactInfo"/>
+
+							</li>
+							<li ng-class="{'highlight-modified':isModified(['basicInformation', 'primaryContact', 'fax'])}"
+                    data-toggle="{{isModified(['basicInformation', 'primaryContact', 'fax']) ? 'popover' : ''}}"
+                    data-container="body" data-placement="top" data-trigger="hover"
+                    data-content="<strong>Contact Person&rsquo;s Fax Number:</strong>
+                                <br/>{{getChangedValue(['basicInformation', 'primaryContact', 'fax']) | telephone | blank}}">
+                                <label class="ben">Contact Person&rsquo;s Fax Number:</label> <input class="billedEntity"
+								id="city" type="text"
+								value="{{basicInformation.primaryContact.fax | telephone}}" ng-disabled="basicInformation.useBilledEntityContactInfo"/>
+
+							</li>
+						</div>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'correspondenceAddress'])}"
+                data-toggle="{{isModified(['basicInformation', 'correspondenceAddress']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Correspondence Address:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'correspondenceAddress']) | correspondenceAddress | blank}}">
+                            <label class="ben">Correspondence Address:</label>
+							<select class="billedEntity" ng-model="basicInformation.correspondenceAddress" ng-options="option.value as option.label for option in addresses"></select>				
+
+						</li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'correspondenceName'])}"
+                data-toggle="{{isModified(['basicInformation', 'correspondenceName']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content="<strong>Name of person to receive correspondence:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'correspondenceName']) | blank}}">
+                            <label class="ben">Name of person to receive
+								correspondence:</label> <select class="billedEntity" ng-model="basicInformation.correspondenceName">
+								<option class="ng-binding ng-scope" selected="selected">{{basicInformation.correspondenceName}}</option>
+								</select></li>
+						<li ng-class="{'highlight-modified':isModified(['basicInformation', 'altContact'])}"
+                data-toggle="{{isModified(['basicInformation', 'altContact']) ? 'popover' : ''}}"
+                data-container="body" data-placement="top" data-trigger="hover"
+                data-content=" <strong>Holiday / Summer Contact Information:</strong>
+                            <br/>{{getChangedValue(['basicInformation', 'altContact']) | blank}}">
+                            <label>Holiday / Summer Contact Information:</label> <textarea
+								rows="3" cols="50">
+						{{basicInformation.altContact}}
+				</textarea></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer modal-lg">
+            <button class="btn btn-primary" ng-disabled = "isError()" ng-click="save()">Save</button>
+            <button class="btn btn-default" ng-click="$dismiss()">Cancel</button>
+		</div>
+	</div>
+	
+<!-- /div-->
+
+
+
+
+

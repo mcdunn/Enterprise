@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<name>Users - DAOs </name>
+    <groupId>com.markcdunn.users</groupId>
+	<artifactId>daos</artifactId>
+	<packaging>jar</packaging>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.markcdunn</groupId>
+		<artifactId>users</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+        <!-- Core -->
+        <dependency>
+            <groupId>com.markcdunn.core</groupId>
+            <artifactId>daos</artifactId>
+            <version>${core-version}</version>
+        </dependency>
+
+        <!-- Users -->
+        <dependency>
+            <groupId>com.markcdunn.users</groupId>
+            <artifactId>entities</artifactId>
+            <version>${current-users-version}</version>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<finalName>daos</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

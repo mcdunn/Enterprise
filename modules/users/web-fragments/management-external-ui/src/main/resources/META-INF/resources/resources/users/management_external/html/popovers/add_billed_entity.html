@@ -1,0 +1,48 @@
+<div class="popover modify-popover {{placement}}" ng-class="{in:isOpen(),fade:animation()}">
+    <div class="arrow"></div>
+	<div class="popover-inner">
+		<button ng-click="$parent.closePopover('add_billed_entity')" class="close-icon destroy-popover">&times;</button>
+        <div class="form-group">
+            <div class="form-group">
+                <div>
+                    <label for="billedEntityNumber">Enter the Billed Entity below:</label>
+                    <input class="billedEntity" type="text" id="billedEntityNumber"
+                            ng-model="$parent.newBilledEntity.number"
+                            ng-blur="$parent.handleBilledEntityNumberChange($parent.newBilledEntity.number)"/>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error':$parent.newBilledEntity.error}">
+                {{$parent.newBilledEntity.error || "&nbsp;"}}
+            </div>
+            <div class="form-group">
+                <div>
+                    <label>Entity Name:</label><br/>
+                    {{$parent.newBilledEntity.name}}
+                </div>
+            </div>
+            <div class="form-group" ng-show="$parent.application.isConsortiumOrStatewide();" >
+                <label>Entity Type:</label>
+                
+<!-- TODO: This choice should only be available for consortium or statewide and only if they have chosen schools AND libraries -->
+                <ul class="clean-list spaced-items" >
+                    <li>
+                        <input type="radio" ng-model="$parent.newBilledEntity.type" value="SCHOOL"/>
+                        School or School District
+                    </li>
+                    <li>
+                        <input type="radio" ng-model="$parent.newBilledEntity.type" value="LIBRARY"/>
+                        Library or Library System
+                    </li>
+                </ul>
+<!-- TODO -->
+            </div>
+        </div>
+        
+        <div class="popover-footer">
+            <button class="btn btn-primary" ng-class="{'disabled':!$parent.isAddBilledEntityOkayButtonEnabled()}"
+                ng-click="$parent.addBilledEntity($parent.newBilledEntity);"
+                ng-disabled="!$parent.isAddBilledEntityOkayButtonEnabled()">Okay</button>
+            <button class="btn btn-default" ng-click="$parent.closePopover('add_billed_entity')">Cancel</button>
+        </div>
+	</div>
+</div>

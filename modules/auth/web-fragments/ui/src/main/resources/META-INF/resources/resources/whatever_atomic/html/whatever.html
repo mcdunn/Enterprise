@@ -1,0 +1,144 @@
+<div    style="margin:0 auto;width:50em;"
+        ng-click="modificationService.endEdit()">
+    <header style="font-size:2em;font-weight:bold;text-align:center;padding-top:1em;">Manage Whatevers</header>
+    <div    ng-if="!(dataService.data.objects)">Retrieving Data...</div>
+    <div    ng-if="dataService.data.objects"
+            mo-pagination="whatevers"
+            page-size="5">
+        <div    class="errors animate-show"
+                style="border: 2px solid red;background-color: #FFCCCC;margin:10px 100px 0px 100px"
+                ng-if="errorService.isError()">
+            <div    style="font-size:1.5em;font-weight:400;text-align:center">
+                <span   ng-if="errorService.isError()"
+                        class="error-header">
+                    Please correct {{errorService.getErrorCount() > 1 ? " these " +
+                    errorService.getErrorCount() + " errors" : "this error "}} before saving:
+                </span>
+            </div>
+            <div style="height:4em;overflow:auto;margin-bottom:3px">
+                <table  class="modal-errors-table">
+                    <tr     ng-repeat="error in errorService.getErrors()"
+                            ng-click="errorService.goToError(error);$event.stopPropagation()"
+                            class="clickable">
+                        <td     style="text-align:right;padding:0em 1em;width:2em;max-width:2em">{{$index + 1}}.</td>
+                        <td     style="padding:0em 1em">{{error.message}}{{error.value ? ":" + error.value : ""}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div    mo-pagination-controls="whatevers"
+                mo-pagination-template-url="resourceUrlsService.resourceUrls.pagination.template"
+                template-args="{{resourceUrlsService.resourceUrls.pagination}}"
+                style="width:450px;margin:auto;text-align: center;">
+        </div>
+        <table  class="table">
+            <thead>
+                <tr>
+                    <th     style="width:100px;max-width:100px">
+                        <span   ng-click="modificationService.add();$event.stopPropagation()"
+                                class="icon icon-add clickable"
+                                title="Add Whatever">
+                        </span>
+                    </th>
+                    <th     style="width:150px;max-width:150px">ID</th>
+                    <th     style="width:200px;max-width:200px">Field1</th>
+                    <th     style="width:200px;max-width:200px">Field2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr     ng-repeat="whatever in dataService.data.objects | moPaginationFilter:'whatevers'"
+                        ng-class="{'highlight-removed':modificationService.isRemoved(whatever),
+                                'highlight-added':modificationService.isAdded(whatever)}">
+                    <td     class="ignore-strike-through"
+                            style="width:100px;max-width:100px">
+                        <span   ng-if="!modificationService.isRemoved(whatever)"
+                                ng-click="modificationService.remove(whatever);$event.stopPropagation()"
+                                class="icon icon-remove clickable ignore-strike-through"
+                                title="Remove Whatever">
+                        </span>
+                        <span   ng-if="modificationService.isRemoved(whatever) ||
+                                        modificationService.isModified(whatever)"
+                                ng-click="modificationService.restore(whatever);$event.stopPropagation()"
+                                class="icon icon-undo clickable ignore-strike-through"
+                                title="Restore Whatever">
+                         </span>
+                    </td>
+                    <td     style="width:150px;max-width:150px;overflow:hidden">{{whatever.id | TBD}}</td>
+                    <td     ng-class="{'highlight-modified':modificationService.isModified(whatever, ['field1']),
+                                        'highlight-error':errorService.isError(whatever, ['field1']) &&
+                                                        !modificationService.isRemoved(whatever),
+                                        'clickable':modificationService.isEditingAllowed(whatever, ['field1'])}"
+                            ng-click="modificationService.startEdit(whatever, ['field1']);$event.stopPropagation();"
+                            data-toggle="{{modificationService.isModified(whatever, ['field1']) ||
+                                            errorService.isError(whatever, ['field1']) ? 'popover' : ''}}"
+                            data-container="body"
+                            data-placement="top"
+                            data-trigger="hover"
+                            data-content="{{errorService.isError(whatever, ['field1']) ?
+                                            errorService.getErrorMessage(whatever, ['field1']) :
+                                            '<strong>Original Value of Field1:</strong><br/>' +
+                                            modificationService.getChangedValue(whatever, ['field1']) | blank}}"
+                            style="width:200px;max-width:200px;overflow:hidden"
+                            id="whatever_{{whatever.index}}_field1">
+                        <span   ng-if="!modificationService.isEditable(whatever, ['field1'])"
+                                tabindex="0"
+                                ng-focus="modificationService.startEdit(whatever, ['field1']);$event.stopPropagation();">
+                            {{(whatever.field1)}}&nbsp;
+                        </span>
+                        <input  ng-if="modificationService.isEditable(whatever, ['field1'])"
+                                ng-blur="modificationService.endEdit(whatever, ['field1']);"
+                                ng-click="$event.stopPropagation();"
+                                ng-model="whatever.field1"
+                                type="text"
+                                id="whatever_{{whatever.index}}_field1_input"/>
+                    </td>
+                    <td     ng-class="{'highlight-modified':modificationService.isModified(whatever, ['field2']),
+                                        'highlight-error':errorService.isError(whatever, ['field2']) &&
+                                                        !modificationService.isRemoved(whatever),
+                                        'clickable':modificationService.isEditingAllowed(whatever, ['field2'])}"
+                            ng-click="modificationService.startEdit(whatever, ['field2']);$event.stopPropagation();"
+                            data-toggle="{{modificationService.isModified(whatever, ['field2']) ||
+                                            errorService.isError(whatever, ['field2']) ? 'popover' : ''}}"
+                            data-container="body"
+                            data-placement="top"
+                            data-trigger="hover"
+                            data-content="{{errorService.isError(whatever, ['field2']) ?
+                                            errorService.getErrorMessage(whatever, ['field2']) :
+                                            '<strong>Original Value of Field2:</strong><br/>' +
+                                            modificationService.getChangedValue(whatever, ['field2']) | blank}}"
+                            style="width:200px;max-width:200px;overflow:hidden"
+                            id="whatever_{{whatever.index}}_field2">
+                        <span   ng-if="!modificationService.isEditable(whatever, ['field2'])"
+                                tabindex="0"
+                                ng-focus="modificationService.startEdit(whatever, ['field2']);$event.stopPropagation();">
+                            {{(whatever.field2)}}&nbsp;
+                        </span>
+                        <input  ng-if="modificationService.isEditable(whatever, ['field2'])"
+                                ng-blur="modificationService.endEdit(whatever, ['field2']);"
+                                ng-click="$event.stopPropagation();"
+                                ng-model="whatever.field2"
+                                type="text"
+                                id="whatever_{{whatever.index}}_field2_input"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div    mo-pagination-controls="whatevers"
+                mo-pagination-template-url="resourceUrlsService.resourceUrls.pagination.template"
+                template-args="{{resourceUrlsService.resourceUrls.pagination}}"
+                style="width:450px;margin:auto;text-align:center;">
+        </div>
+        <div    style="text-align:center;padding-top:2em;">
+            <span   ng-click="modificationService.save();$event.stopPropagation();"
+                    ng-disabled="errorService.isError()"
+                    class="btn btn-primary"
+                    style="padding:0.5em 2em;">Save</span>
+            <span   ng-click="modificationService.reset();$event.stopPropagation();"
+                    class="btn btn-default"
+                    style="padding:0.5em 2em;">Reset</span>
+            <span   ng-click="modificationService.cancel();$event.stopPropagation();"
+                    class="btn btn-default"
+                    style="padding:0.5em 2em;">Cancel</span>
+        </div>
+    </div>
+</div>

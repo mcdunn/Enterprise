@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false" monitoring="autodetect"
+         dynamicConfig="true" name="application">
+
+
+    <!--
+       maxElementInMemory:
+       maxElementsOnDisk:
+       overflowToDisk:
+       timeToIdle:
+       timeToLive:
+       maxEntriesLocalHeap:
+       maxEntriesLocalDisk:
+       eternal: overrides timeToLive and timeToIdle so that no expiration will occur
+    -->
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+            maxElementsInMemory="250"
+            overflowToDisk="true"
+            maxElementsOnDisk="10000"
+            eternal="false"
+            timeToIdleSeconds="600"
+            timeToLiveSeconds="600">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </defaultCache>
+
+    <!-- Cache used by the event subscription management (EventManagementService)
+        to track who is subscribing to system event broadcasts -->
+
+    <cache name="eventSubscriptionsCache"
+           maxElementsInMemory="100"
+           overflowToDisk="true"
+           eternal="true">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <!-- Cache used by the application components locks to determine if access
+        should be permitted to modify data within the component -->
+
+    <cache name="lockDataCache"
+           maxElementsInMemory="50"
+           overflowToDisk="true"
+           eternal="false"
+           timeToIdleSeconds="30000"
+           timeToLiveSeconds="60000">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <!-- User session cache is used to hold a central mapping between a username
+        and the HttpSession associated with that users -->
+    <cache name="userSessionCache"
+           maxElementsInMemory="250"
+           overflowToDisk="false"
+           eternal="true">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <!-- The system configuration cache holds the current system details to avoid
+        continued re-retrieval of the configuration data in a request. -->
+
+    <cache name="systemConfig"
+           maxElementsInMemory="10"
+           overflowToDisk="false"
+           eternal="false"
+           timeToIdleSeconds="30000"
+           timeToLiveSeconds="60000">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <cache name="systemConfigMode"
+           maxElementsInMemory="10"
+           overflowToDisk="false"
+           eternal="false"
+           timeToIdleSeconds="30000"
+           timeToLiveSeconds="60000">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <cache name="us_SynchronizationResponseCache"
+           maxElementsInMemory="5"
+           overflowToDisk="true"
+           maxElementsOnDisk="500"
+           diskPersistent="true"
+           eternal="true">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <!-- Cache used by an untethered server to determine what data has been sent to a client -->
+    <cache name="us_uClientMasterEntityIdCache"
+           maxElementsInMemory="5"
+           overflowToDisk="true"
+           maxElementsOnDisk="500"
+           diskPersistent="true"
+           eternal="true">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <cache name="us_uClientImportMetaDataCache"
+           maxElementsInMemory="5"
+           overflowToDisk="true"
+           diskPersistent="true"
+           maxElementsOnDisk="500"
+           eternal="true">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <cache name="us_uClientExportMetaDataCache"
+           maxElementsInMemory="5"
+           overflowToDisk="true"
+           diskPersistent="true"
+           maxElementsOnDisk="500"
+           eternal="true">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+    <cache name="mpfCache"
+           maxElementsInMemory="50"
+           overflowToDisk="true"
+           eternal="false"
+           timeToIdleSeconds="30000"
+           timeToLiveSeconds="60000">
+<!--         <cacheDecoratorFactory class="com.yammer.metrics.ehcache.InstrumentedEhcacheFactory"/>
+ -->    </cache>
+
+</ehcache>

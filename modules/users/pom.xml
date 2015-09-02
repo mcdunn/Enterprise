@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<name>Users</name>
+	<artifactId>users</artifactId>
+	<packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.markcdunn</groupId>
+		<artifactId>modules</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+    <properties>
+        <current-users-version>1.0-SNAPSHOT</current-users-version>
+        <core-version>1.0-SNAPSHOT</core-version>
+    </properties>
+
+	<modules>
+        <module>daos</module>
+        <module>entities</module>
+        <module>model</module>
+        <module>querydsl</module>
+        <module>rest-services</module>
+        <module>services</module>
+        <module>services-impl</module>
+        <module>spring</module>
+        <module>transfer-objects</module>
+        <module>utils</module>
+		<module>web-fragments</module>
+    </modules>
+
+	<build>
+		<finalName>users</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

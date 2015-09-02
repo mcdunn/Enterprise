@@ -1,0 +1,31 @@
+<nav ng-if="paginationState.numPages > 1">
+    <ul class="pagination no-border no-margin no-padding">
+        <li>
+            <img ng-src="{{firstIcon}}" ng-click="selectPage(1)" class="btn btn-primary btn-small"
+                 ng-class="{clickable:(paginationState.page > 1), disabled:(paginationState.page === 1)}" width="35"/>
+        </li>
+        <li>
+            <img ng-src="{{previousIcon}}" ng-click="previousPage()" class="btn btn-primary btn-small"
+                 ng-class="{clickable:(paginationState.page > 1), disabled:(paginationState.page === 1)}" width="35"/>
+        </li>
+        <li><b>Page <mo-page-select></mo-page-select> of {{paginationState.numPages}}</b></li>
+        <li>
+            <img ng-src="{{nextIcon}}" ng-click="nextPage()" class="btn btn-primary btn-small"
+                 ng-class="{clickable:(paginationState.page < paginationState.numPages),
+                            disabled:(paginationState.page >= paginationState.numPages)}" width="35"/>
+        </li>
+        <li>
+            <img ng-src="{{lastIcon}}" ng-click="selectPage(paginationState.numPages)" class="btn btn-primary btn-small"
+                 ng-class="{clickable:(paginationState.page < paginationState.numPages),
+                 disabled:(paginationState.page >= paginationState.numPages)}" width="35"/></li>
+        <li>
+            <b>Page Size:</b>&nbsp;
+            <select ng-model="paginationState.pageSize">
+                <option>3</option>
+                <option>5</option>
+                <option>10</option>
+                <option>20</option>
+            </select>
+        </li>
+    </ul>
+</nav>

@@ -1,0 +1,17 @@
+<beans default-init-method="init" default-destroy-method="destroy"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <!-- This will export any JMX registered MBeans -->
+    <!--context:mbean-export registration="ignoreExisting" default-domain="com.markcdunn" /-->
+
+    <!--bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+        <property name="locateExistingServerIfPossible" value="true"/>
+    </bean-->
+
+</beans>
+

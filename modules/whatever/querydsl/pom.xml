@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<name>Whatever - QueryDSL </name>
+    <groupId>com.markcdunn.whatever</groupId>
+	<artifactId>querydsl</artifactId>
+	<packaging>jar</packaging>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.markcdunn</groupId>
+		<artifactId>whatever</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+        <!-- Core -->
+        <dependency>
+            <groupId>com.markcdunn.core</groupId>
+            <artifactId>querydsl</artifactId>
+            <version>${core-version}</version>
+        </dependency>
+
+        <!-- Whatevers -->
+        <dependency>
+            <groupId>com.markcdunn.whatever</groupId>
+            <artifactId>services</artifactId>
+            <version>${current-whatevers-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.markcdunn.whatever</groupId>
+            <artifactId>entities</artifactId>
+            <version>${current-whatevers-version}</version>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<finalName>querydsl</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

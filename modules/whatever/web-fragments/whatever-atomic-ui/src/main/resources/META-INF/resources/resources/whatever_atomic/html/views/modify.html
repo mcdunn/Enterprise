@@ -1,0 +1,34 @@
+<div not_class="popover modify-popover {{placement}}" ng-class="{in:isOpen(),fade:animation()}"
+     ng-controller="whateverModifyCtrl">
+    <div class="arrow"></div>
+    <div class="popover-inner">
+        <header style="width:100%">
+            <button ng-click="cancel()" class="close-icon">&times;</button>
+            <h3>Modify Whatever</h3>
+        </header>
+        <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':error}">
+                {{error || "&nbsp;"}}
+            </div>
+            <div class="form-group">
+                <div>
+                    <label for="whatever_field1">Field1:</label>
+                    <input class="whatever_field1" type="text" id="whatever_field1"
+                           ng-model="whatever.field1"/>
+                </div>
+                <div>
+                    <label for="whatever_field2">Field2:</label>
+                    <input class="whatever_field2" type="text" id="whatever_field2"
+                           ng-model="whatever.field2"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="popover-footer">
+            <button class="btn btn-primary" ng-class="{'disabled':!isSaveButtonEnabled()}"
+                    ng-click="save(whatever);"
+                    ng-disabled="!isSaveButtonEnabled()">Save</button>
+            <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div style="margin:0 auto;width:50em;">
+    <header style="font-size:2em;font-weight:bold;text-align:center;padding:2em;">Manage Whatevers</header>
+    <div ng-if="!(whateverServices.whatevers)">Retrieving Data...</div>
+    <div ng-if="whateverServices.whatevers"  mo-pagination="whatevers" page-size="5">
+        <div mo-pagination-controls="whatevers"
+             mo-pagination-template-url="resourceUrls.pagination.template"
+             template-args="{{resourceUrls.pagination}}" style="width:450px;margin:auto;text-align: center;"></div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>ID</th>
+                    <th>Field1</th>
+                    <th>Field2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="whatever in whateverServices.whatevers |
+                    moPaginationFilter:'whatevers'">
+                    <td>
+                        <span ng-click="deleteWhatever(whatever)" class="btn btn-primary btn-modify">
+                            Delete
+                        </span>
+                        <span ng-click="modifyWhatever(whatever)" class="btn btn-primary btn-modify">
+                            Modify
+                        </span>
+                    </td>
+                    <td>{{whatever.id}}</td>
+                    <td>{{whatever.field1}}</td>
+                    <td>{{whatever.field2}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div mo-pagination-controls="whatevers"
+             mo-pagination-template-url="resourceUrls.pagination.template"
+             template-args="{{resourceUrls.pagination}}" style="width:450px;margin:auto;text-align: center;"></div>
+        <div style="text-align:center">
+            <span class="btn btn-primary btn-modify" ng-click="addWhatever();$event.stopPropagation();"
+                  style="padding:0.5em 5em;">Add Whatever</span>
+        </div>
+    </div>
+</div>
