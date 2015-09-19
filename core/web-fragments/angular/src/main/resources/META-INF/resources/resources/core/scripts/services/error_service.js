@@ -38,9 +38,8 @@ angular
             };
 
             this.setErrors = function(errors) {
-console.log("setting errors to " + errors);
                 this.errors = errors;
-                if ((errors == null) && (typeof errors == 'undefied')) {
+                if ((errors == null) && (typeof errors == 'undefined')) {
                     this.errors = [];
                 }
             };

@@ -39,8 +39,8 @@ angular
                         }
                     )
                     .error(
-                        function (error) {
-                            deferred.reject(error);
+                        function (data, code) {
+                            deferred.reject(code);
                         }
                     );
                 return deferred.promise;
@@ -54,12 +54,12 @@ angular
                 }
                 $http.get(coreUtils.stringFormat(urlConfiguration.whateverRetrieve, id))
                     .success(
-                        function (data) {
+                        function(data) {
                             deferred.resolve(data);
                         }
                     )
                     .error(
-                        function (data, code) {
+                        function(data, code) {
                             deferred.reject(code);
                         }
                     );
@@ -70,13 +70,13 @@ angular
                 var deferred = $q.defer();
                 $http.put(coreUtils.stringFormat(urlConfiguration.whateverModify, whatever.id), whatever)
                     .success(
-                        function (data) {
+                        function(data) {
                             deferred.resolve(data);
                         }
                     )
                     .error(
-                        function (error) {
-                            deferred.reject(error);
+                        function(data, code) {
+                            deferred.reject(code);
                         }
                     );
                 return deferred.promise;
@@ -91,8 +91,8 @@ angular
                         }
                     )
                     .error(
-                        function (error) {
-                            deferred.reject(error);
+                        function (data, code) {
+                            deferred.reject(code);
                         }
                     );
                 return deferred.promise;
@@ -107,8 +107,8 @@ angular
                         }
                     )
                     .error(
-                        function (error) {
-                            deferred.reject(error);
+                        function(data, code) {
+                            deferred.reject(code);
                         }
                     );
                 return deferred.promise;
