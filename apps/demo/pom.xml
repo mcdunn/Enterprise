@@ -17,6 +17,7 @@
 
         <users-version>1.0-SNAPSHOT</users-version>
         <whatevers-version>1.0-SNAPSHOT</whatevers-version>
+        <mock-rp-version>1.0-SNAPSHOT</mock-rp-version>
     </properties>
 
     <prerequisites>
