@@ -12,3 +12,4 @@
 <script src="${requestScope.baseUrl}resources/core/scripts/services/popup_service.js"></script>
 <script src="${requestScope.baseUrl}resources/core/scripts/services/utils_service.js"></script>
 <script src="${requestScope.baseUrl}resources/pagination/scripts/mo_pagination.js"></script>
+<script src="${requestScope.baseUrl}resources/ngDraggable/scripts/ngDraggable.js"></script>
